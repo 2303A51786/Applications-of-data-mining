@@ -1,0 +1,122 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "history_visible": true,
+      "authorship_tag": "ABX9TyPYJEvfMx1spZGAfuOLFm8W",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/2303A51786/Applications-of-data-mining/blob/main/ADM%2001\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 13,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 315
+        },
+        "id": "UKEIm4EWslE5",
+        "outputId": "e3cf3097-c0fe-487a-f7e9-0f3e8a61f4f1"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Index(['id', 'name', 'nationality', 'city', 'latitude', 'longitude', 'gender',\n",
+            "       'age', 'english.grade', 'math.grade', 'sciences.grade',\n",
+            "       'language.grade', 'portfolio.rating', 'coverletter.rating',\n",
+            "       'refletter.rating'],\n",
+            "      dtype='object')\n"
+          ]
+        },
+        {
+          "output_type": "error",
+          "ename": "KeyError",
+          "evalue": "\"Neither 'Age' nor 'StudentAge' found in the dataset columns. Please check your CSV file.\"",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mKeyError\u001b[0m                                  Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-13-062692dd9133>\u001b[0m in \u001b[0;36m<cell line: 0>\u001b[0;34m()\u001b[0m\n\u001b[1;32m     17\u001b[0m         \u001b[0mdata\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mdata\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mrename\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mcolumns\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m{\u001b[0m\u001b[0mpotential_age_column\u001b[0m\u001b[0;34m:\u001b[0m \u001b[0;34m'Age'\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     18\u001b[0m     \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 19\u001b[0;31m         \u001b[0;32mraise\u001b[0m \u001b[0mKeyError\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34mf\"Neither 'Age' nor '{potential_age_column}' found in the dataset columns. Please check your CSV file.\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     20\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     21\u001b[0m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"Original Dataset:\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mKeyError\u001b[0m: \"Neither 'Age' nor 'StudentAge' found in the dataset columns. Please check your CSV file.\""
+          ]
+        }
+      ],
+      "source": [
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "from sklearn.preprocessing import MinMaxScaler, StandardScaler\n",
+        "\n",
+        "file_path = '/content/student-dataset.csv'\n",
+        "data = pd.read_csv(file_path)\n",
+        "\n",
+        "# Print column names to verify\n",
+        "print(data.columns)\n",
+        "\n",
+        "# If 'Age' is not present, rename the appropriate column\n",
+        "# Replace 'student_age' with the actual column name from your CSV\n",
+        "# For example, if the actual column name is 'student_age':\n",
+        "if 'Age' not in data.columns:\n",
+        "    potential_age_column = 'StudentAge'  # Replace 'student_age' with the actual column name\n",
+        "    if potential_age_column in data.columns:\n",
+        "        data = data.rename(columns={potential_age_column: 'Age'})\n",
+        "    else:\n",
+        "        raise KeyError(f\"Neither 'Age' nor '{potential_age_column}' found in the dataset columns. Please check your CSV file.\")\n",
+        "\n",
+        "print(\"Original Dataset:\")\n",
+        "print(data)\n",
+        "\n",
+        "data.isna\n",
+        "# proceed with using data['Age'] as it should now exist\n",
+        "\n",
+        "data['Age'].fillna(data['Age'].mean(), inplace=True)  # Mean  for Age\n",
+        "data['Salary'].fillna(data['Salary'].median(), inplace=True)  # Median for Salary\n",
+        "data['Job_Satisfaction'].fillna(data['Job_Satisfaction'].mode()[0], inplace=True)  # Mode for Job Satisfaction\n",
+        "\n",
+        "min_max_scaler = MinMaxScaler()\n",
+        "data[['Age', 'Salary']] = min_max_scaler.fit_transform(data[['Age', 'Salary']])\n",
+        "\n",
+        "def min_max_scale_manual(column):\n",
+        "    return (column - column.min()) / (column.max() - column.min())\n",
+        "\n",
+        "# Move these lines outside the function definition\n",
+        "data['Age_manual'] = min_max_scale_manual(data['Age'])\n",
+        "data['Salary_manual'] = min_max_scale_manual(data['Salary'])\n",
+        "\n",
+        "standard_scaler = StandardScaler()\n",
+        "data[['Job_Satisfaction', 'Work_Hours_Per_Week']] = standard_scaler.fit_transform(data[['Job_Satisfaction', 'Work_Hours_Per_Week']])\n",
+        "\n",
+        "def z_score_normalize(column):\n",
+        "    return (column - column.mean()) / column.std()\n",
+        "# Move this line outside the function definition\n",
+        "data['Job_Satisfaction_manual'] = z_score_normalize(data['Job_Satisfaction'])\n",
+        "data['Work_Hours_Per_Week_manual'] = z_score_normalize(data['Work_Hours_Per_Week'])\n",
+        "\n",
+        "print(\"\\nBeforePreprocessed Dataset:\")\n",
+        "print(data)\n",
+        "print(\"\\nDataset after preprocessing:\")\n",
+        "print(data)"
+      ]
+    }
+  ]
+}
