@@ -1,0 +1,115 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPFl1/aHy6au794mao3MqUN",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/2303A51786/Applications-of-data-mining/blob/main/ADM%20ASSIGNMENT1%20PATIENTS.CSV\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "DwPTytcJkpTT",
+        "outputId": "d48fefec-174e-49b7-860e-d53a9e15edcb"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Original DataFrame:\n",
+            "   Patient_ID   Age  Glucose_Level  Blood_Pressure  Insulin        BMI\n",
+            "0         101  56.0          142.0            95.0    107.0        NaN\n",
+            "1         102  46.0          143.0            75.0    144.0  31.722504\n",
+            "2         103  33.0           79.0            92.0    195.0  31.572256\n",
+            "3         104  75.0          140.0            96.0     55.0  19.937204\n",
+            "4         105  70.0          115.0            83.0    152.0  29.576845\n",
+            "\n",
+            "DataFrame after Mean Imputation:\n",
+            "   Patient_ID   Age  Glucose_Level  Blood_Pressure  Insulin        BMI\n",
+            "0       101.0  56.0          142.0            95.0    107.0  27.128133\n",
+            "1       102.0  46.0          143.0            75.0    144.0  31.722504\n",
+            "2       103.0  33.0           79.0            92.0    195.0  31.572256\n",
+            "3       104.0  75.0          140.0            96.0     55.0  19.937204\n",
+            "4       105.0  70.0          115.0            83.0    152.0  29.576845\n",
+            "\n",
+            "DataFrame after Min-Max Scaling:\n",
+            "   Patient_ID       Age  Glucose_Level  Blood_Pressure   Insulin       BMI\n",
+            "0    0.000000  0.530612       0.942857        0.428571  0.388889  0.525540\n",
+            "1    0.020408  0.326531       0.957143        0.168831  0.645833  0.826100\n",
+            "2    0.040816  0.061224       0.042857        0.389610  1.000000  0.816271\n",
+            "3    0.061224  0.918367       0.914286        0.441558  0.027778  0.055115\n",
+            "4    0.081633  0.816327       0.557143        0.272727  0.701389  0.685733\n"
+          ]
+        }
+      ],
+      "source": [
+        "import pandas as pd\n",
+        "from sklearn.preprocessing import MinMaxScaler\n",
+        "from sklearn.impute import SimpleImputer\n",
+        "\n",
+        "# Load the dataset (Replace with your actual file path)\n",
+        "# For CSV:\n",
+        "# df = pd.read_csv('/content/patients.csv')\n",
+        "\n",
+        "# For Excel:\n",
+        "# df = pd.read_excel('your_file.xlsx')\n",
+        "\n",
+        "# For JSON:\n",
+        "# df = pd.read_json('your_file.json')\n",
+        "\n",
+        "# Example: loading a sample dataset (use your own dataset here)\n",
+        "df = pd.read_csv('/content/patients.csv')\n",
+        "\n",
+        "# Display the first few rows of the dataset\n",
+        "print(\"Original DataFrame:\")\n",
+        "print(df.head())\n",
+        "\n",
+        "# 1. Handle missing values using Mean Imputation\n",
+        "imputer = SimpleImputer(strategy='mean')\n",
+        "df_imputed = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)\n",
+        "\n",
+        "# Display the DataFrame after missing value imputation\n",
+        "print(\"\\nDataFrame after Mean Imputation:\")\n",
+        "print(df_imputed.head())\n",
+        "\n",
+        "# 2. Feature Scaling (Min-Max Normalization)\n",
+        "scaler = MinMaxScaler()\n",
+        "df_scaled = pd.DataFrame(scaler.fit_transform(df_imputed), columns=df_imputed.columns)\n",
+        "\n",
+        "# Display the scaled DataFrame\n",
+        "print(\"\\nDataFrame after Min-Max Scaling:\")\n",
+        "print(df_scaled.head())\n",
+        "\n",
+        "# Optionally, if you want to use Standardization instead, use:\n",
+        "# from sklearn.preprocessing import StandardScaler\n",
+        "# scaler = StandardScaler()\n",
+        "# df_scaled = pd.DataFrame(scaler.fit_transform(df_imputed), columns=df_imputed.columns)"
+      ]
+    }
+  ]
+}
