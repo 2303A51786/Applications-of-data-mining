@@ -1,0 +1,80 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMACqleDdJ+gWYQk7ffPOHM",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/2303A51786/Applications-of-data-mining/blob/main/LAB_04%20WINEQT.csv\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 4,
+      "metadata": {
+        "id": "4wkX7fukGJ-O"
+      },
+      "outputs": [],
+      "source": [
+        "# importing required libraries\n",
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "import pandas as pd\n",
+        "# importing or loading the dataset\n",
+        "dataset = pd.read_csv('/content/WineQT.csv')\n",
+        "\n",
+        "# distributing the dataset into two components X and Y\n",
+        "X = dataset.iloc[:, 0:13].values\n",
+        "# The error is in this line. Change the index to 12 to access the last column\n",
+        "y = dataset.iloc[:, 12].values\n",
+        "# Splitting the X and Y into the\n",
+        "# Training set and Testing set\n",
+        "from sklearn.model_selection import train_test_split\n",
+        "\n",
+        "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)\n",
+        "# performing preprocessing part\n",
+        "from sklearn.preprocessing import StandardScaler\n",
+        "sc = StandardScaler()\n",
+        "\n",
+        "X_train = sc.fit_transform(X_train)\n",
+        "X_test = sc.transform(X_test)\n",
+        "# Applying PCA function on training\n",
+        "# and testing set of X component\n",
+        "from sklearn.decomposition import PCA\n",
+        "\n",
+        "pca = PCA(n_components=2)\n",
+        "\n",
+        "X_train = pca.fit_transform(X_train)\n",
+        "X_test = pca.transform(X_test)\n",
+        "\n",
+        "explained_variance = pca.explained_variance_ratio_\n",
+        "# Fitting Logistic Regression To the training set\n",
+        "from sklearn.linear_model import LogisticRegression\n",
+        "\n",
+        "classifier = LogisticRegression(random_state=0)\n",
+        "classifier.fit(X_train, y_train)\n",
+        "# Predicting the test set result using\n",
+        "# predict function under LogisticRegression\n",
+        "y_pred = classifier.predict(X_test)"
+      ]
+    }
+  ]
+}
